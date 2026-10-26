@@ -108,7 +108,7 @@ async function build(){
   for(const [key,slug] of Object.entries(links)){if(key==='home')continue;const rel=slug.replace(/^\//,'')+'index.html';const depth=rel.split('/').length-1;all.push([rel,inside(key,depth)]);}
   for(const [file,html] of all){const to=path.join(outDir,file);await mkdir(path.dirname(to),{recursive:true});await writeFile(to,html,'utf8');}
   await mkdir(path.join(outDir,'assets'),{recursive:true});
-  for(const name of ['style.css','page-variants.css','home.css','motion.js'])await copyFile(path.join(sourceDir,'assets',name),path.join(outDir,'assets',name));
+  for(const name of ['style.css','page-variants.css','home.css','motion.js','home-intro.js','home-scroll.js','brand-animation.html','e-dennosuke.jpg'])await copyFile(path.join(sourceDir,'assets',name),path.join(outDir,'assets',name));
   console.log(`Built ${all.length} static HTML pages in ${outDir}`);
 }
 build().catch(e=>{console.error(e);process.exitCode=1});

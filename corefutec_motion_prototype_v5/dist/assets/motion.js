@@ -63,20 +63,48 @@
   // Reuse the same reveal for headings and their labels across all templates.
   // A heading inside an animated row/card already moves with its parent.
   document.querySelectorAll('main h1, main h2, main h3, main .eyebrow, .footer-upper .eyebrow, .footer-upper p').forEach(el => {
-    if (!el.closest('[data-reveal="left"]')) el.setAttribute('data-reveal', 'left');
+    if (!el.hasAttribute('data-reveal') && !el.closest('[data-reveal="left"]')) el.setAttribute('data-reveal', 'left');
   });
   const reveals = document.querySelectorAll('[data-reveal="left"]');
+  function revealElement(element) {
+    if (element.classList.contains('is-visible')) return;
+    element.classList.add('is-visible');
+    if (reduce.matches || typeof element.animate !== 'function') return;
+    const heading = element.matches('h1, h2, h3, .eyebrow');
+    if (heading) element.classList.add('is-revealing');
+    let animation;
+    try {
+      animation = element.animate(heading ? [
+        { maskPosition: '100% 0%', webkitMaskPosition: '100% 0%' },
+        { maskPosition: '0% 0%', webkitMaskPosition: '0% 0%' }
+      ] : [
+        { opacity: 0, transform: 'translate3d(0,16px,0)' },
+        { opacity: 1, transform: 'translate3d(0,0,0)' }
+      ], {
+        duration: heading ? 900 : 600,
+        easing: 'cubic-bezier(.22,1,.36,1)',
+        fill: 'both'
+      });
+    } catch {
+      element.classList.remove('is-revealing');
+      return;
+    }
+    animation.finished.then(() => {
+      element.classList.remove('is-revealing');
+      animation.cancel();
+    }, () => element.classList.remove('is-revealing'));
+  }
   if (reduce.matches || !('IntersectionObserver' in window)) {
-    reveals.forEach(el => el.classList.add('is-visible'));
+    reveals.forEach(element => element.classList.add('is-visible'));
   } else {
     const observer = new IntersectionObserver(entries => {
       for (const entry of entries) {
         if (!entry.isIntersecting) continue;
-        entry.target.classList.add('is-visible');
+        revealElement(entry.target);
         observer.unobserve(entry.target);
       }
-    }, { threshold: .17, rootMargin: '0px 0px -35px 0px' });
-    reveals.forEach(el => observer.observe(el));
+    }, { threshold: 0, rootMargin: '0px 0px 40px 0px' });
+    reveals.forEach(element => observer.observe(element));
   }
 
   const cards = [...document.querySelectorAll('[data-stack] .stack-card')];

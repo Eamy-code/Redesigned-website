@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Corefutec | ブランドイントロ・アニメーション</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500&display=swap" rel="stylesheet">
+  <style>
+    :root { --blue:#086bf0; --ink:#0b1a37; --paper:#f2f6fc; }
+    * { box-sizing:border-box; }
+    html,body { margin:0;min-height:100%;font-family:Arial,"Noto Sans JP",sans-serif;background:#e6edf6; }
+    body {display:grid;place-items:center;min-height:100svh;overflow-x:hidden;}
+    .frame{position:relative;width:min(100vw,177.777vh);aspect-ratio:16/9;max-height:100svh;overflow:hidden;background:var(--paper);isolation:isolate;box-shadow:0 22px 80px #193c6c20;}
+    .grid{position:absolute;inset:0;}
+    .rings{position:absolute;width:47%;aspect-ratio:1;border:clamp(18px,6vw,110px) solid #fff;border-radius:50%;left:54%;top:13%;}
+    .small{font-size:clamp(9px,1.55cqw,27px);letter-spacing:.14em;color:#2368b6;text-transform:uppercase;}
+    .scene-one{position:absolute;inset:0;padding:7.6% 7.1%;animation:leaveOne 9s 1 both;}
+    .label{position:relative;opacity:0;animation:fadeLabel 9s 1 both;}
+    .line{display:block;font-size:clamp(40px,13.5cqw,246px);font-weight:800;line-height:.98;letter-spacing:-.065em;white-space:nowrap;overflow:hidden;width:0;}
+    .line.first{color:var(--ink);margin-top:8.6%;animation:openLineOne 9s 1 both;}
+    .line.second{color:var(--blue);margin-top:2%;animation:openLineTwo 9s 1 both;}
+    .services{position:absolute;left:7.4%;bottom:15%;font-size:clamp(9px,2.0cqw,35px);color:#42628b;letter-spacing:.06em;opacity:0;animation:showServices 9s 1 both;}
+    .underbar{position:absolute;height:3px;background:var(--blue);left:7.4%;top:19%;width:0;animation:barSlide 9s 1 both;}
+    .scene-two{position:absolute;inset:0;background:linear-gradient(180deg,#0368f2,#064fd4);clip-path:inset(100% 0 0 0);animation:blueWipe 9s 1 both;overflow:hidden;}
+    .scene-two:before{content:"";position:absolute;width:45%;aspect-ratio:1;border-radius:50%;border:clamp(10px,5.2vw,88px) solid #ffffff19;right:-1%;top:8%;}
+    .stack{position:absolute;inset:11% 7%;display:flex;flex-direction:column;justify-content:center;font-size:clamp(58px,12.2cqw,224px);font-weight:800;line-height:1.04;letter-spacing:-.06em;color:white;}
+    .stack span{display:block;transform:translateY(45px);opacity:0;}
+    .stack span:nth-child(1){animation:stackOne 9s 1 both;}
+    .stack span:nth-child(2){animation:stackTwo 9s 1 both;}
+    .stack span:nth-child(3){animation:stackThree 9s 1 both;}
+    .stage-two-bottom{position:absolute;left:8%;bottom:7%;font-size:clamp(10px,2cqw,30px);letter-spacing:.22em;color:#d2f0ff;opacity:0;animation:stackThree 9s 1 both;}
+    .scene-three{position:absolute;inset:0;background:var(--paper);clip-path:inset(0 0 100% 0);animation:whiteWipe 9s 1 both;display:flex;align-items:center;justify-content:center;flex-direction:column;padding:5.5% 7.4%;}
+    .brand-lockup{position:relative;width:100%;}
+    .wordmark{display:block;width:min(83cqw,1400px);margin:0 auto;color:var(--ink);line-height:0;}
+    .signature{display:block;width:100%;height:auto;overflow:visible;}
+    .signature-stroke{fill:none;stroke:currentColor;stroke-width:6.5;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:1;stroke-dashoffset:1;opacity:0;animation:writeStroke var(--stroke-duration) linear var(--stroke-delay) 1 both;}
+    @keyframes writeStroke{0%{stroke-dashoffset:1;opacity:0}1%{opacity:1}100%{stroke-dashoffset:0;opacity:1}}
+    .endcap{position:relative;margin-top:clamp(12px,2.3cqw,32px);font-family:"Space Grotesk","Segoe UI",Arial,sans-serif;font-size:clamp(8px,1.2cqw,18px);font-weight:500;line-height:1.5;color:#42628b;letter-spacing:.16em;opacity:0;animation:capReveal 9s 1 both;text-align:center;}
+    .replay{position:fixed;z-index:10;right:18px;bottom:18px;border:1px solid #bdd5f0;border-radius:100px;padding:12px 20px;font:600 14px Arial,sans-serif;color:#154d96;background:#fffffff0;cursor:pointer;box-shadow:0 5px 22px #1b57a51c;}
+    .replay:hover{background:#eaf3ff;}
+    .paused *:not(.replay){animation-play-state:paused!important;}
+    @keyframes fadeLabel{0%,2%{opacity:0}7%,32%{opacity:1}39%,100%{opacity:0}}
+    @keyframes barSlide{0%,2%{width:0}13%,32%{width:56%}39%,100%{width:56%}}
+    @keyframes openLineOne{0%,5%{width:0;transform:translateY(38px)}15%,32%{width:100%;transform:translateY(0)}39%,100%{width:100%;transform:translateY(-25px)}}
+    @keyframes openLineTwo{0%,10%{width:0;transform:translateY(44px)}22%,32%{width:100%;transform:translateY(0)}39%,100%{width:100%;transform:translateY(-25px)}}
+    @keyframes showServices{0%,18%{opacity:0}27%,34%{opacity:1}39%,100%{opacity:0}}
+    @keyframes leaveOne{0%,33%{opacity:1}40%,100%{opacity:0}}
+    @keyframes blueWipe{0%,33%{clip-path:inset(100% 0 0 0)}41%,65%{clip-path:inset(0 0 0 0)}73%,100%{clip-path:inset(0 0 100% 0)}}
+    @keyframes stackOne{0%,37%{opacity:0;transform:translateY(45px)}43%,63%{opacity:1;transform:translateY(0)}69%,100%{opacity:0;transform:translateY(-20px)}}
+    @keyframes stackTwo{0%,43%{opacity:0;transform:translateY(45px)}49%,63%{opacity:1;transform:translateY(0)}69%,100%{opacity:0;transform:translateY(-20px)}}
+    @keyframes stackThree{0%,49%{opacity:0;transform:translateY(45px)}55%,63%{opacity:1;transform:translateY(0)}69%,100%{opacity:0;transform:translateY(-20px)}}
+    @keyframes whiteWipe{0%,67%{clip-path:inset(0 0 100% 0)}75%,100%{clip-path:inset(0 0 0 0)}}
+    @keyframes capReveal{0%,96%{opacity:0}100%{opacity:1}}
+    @media (prefers-reduced-motion:reduce){.frame *{animation:none!important}.scene-one,.scene-two{display:none!important}.scene-three{clip-path:none!important}.brand-lockup,.endcap{opacity:1!important;transform:none!important}.replay{display:none}.signature-stroke{stroke-dashoffset:0!important;opacity:1!important}}
+    html,body{background:#f2f6fc;overflow:hidden;min-height:100%;}
+    .frame{box-shadow:none;container-type:inline-size;}
+    .is-static .frame *{animation:none!important;}
+    .is-static .signature-stroke{stroke-dashoffset:0!important;opacity:1!important;}
+    .is-static .scene-one,.is-static .scene-two{display:none!important;}
+    .is-static .scene-three{clip-path:none!important;}
+    .is-static .brand-lockup,.is-static .endcap{opacity:1!important;transform:none!important;}
+    @media(max-width:680px){
+      .small{font-size:1.55cqw;}
+      .line{font-size:13.5cqw;}
+      .services,.stage-two-bottom{font-size:2cqw;}
+      .stack{font-size:12.2cqw;}
+    }
+  </style>
+</head>
+<body class="is-static">
+  <main class="frame" id="animation" aria-label="Corefutecブランドイントロ">
+    <div class="grid" aria-hidden="true"></div><div class="rings" aria-hidden="true"></div>
+    <section class="scene-one" aria-hidden="true"><div class="label small">COREFUTEC / QUALITY ENGINEERING</div><div class="underbar"></div><span class="line first">Quality</span><span class="line second">in motion.</span><div class="services">SOFTWARE TESTING / DEVELOPMENT / SOLUTIONS</div></section>
+    <section class="scene-two" aria-hidden="true"><div class="stack"><span>TEST.</span><span>BUILD.</span><span>IMPROVE.</span></div><div class="stage-two-bottom">PRECISION AT EVERY STEP</div></section>
+    <section class="scene-three"><div class="brand-lockup"><div class="wordmark"><svg class="signature" xmlns="http://www.w3.org/2000/svg" viewBox="12 20 636 220" role="img" aria-label="corefutec"><path class="signature-stroke" data-stroke="c" pathLength="1" d="M94 102 C62 75 31 111 38 141 C45 173 83 158 104 138" style="--stroke-delay:6.7s;--stroke-duration:0.18s"/><path class="signature-stroke" data-stroke="o" pathLength="1" d="M105 137 C99 158 127 168 146 147 C173 117 158 86 135 101 C112 115 105 149 127 153 C143 155 157 138 169 122" style="--stroke-delay:6.88s;--stroke-duration:0.24s"/><path class="signature-stroke" data-stroke="r" pathLength="1" d="M169 122 C179 108 182 96 187 96 C197 96 184 122 181 141 C190 119 205 102 216 110 C222 117 216 127 227 130" style="--stroke-delay:7.12s;--stroke-duration:0.18s"/><path class="signature-stroke" data-stroke="e" pathLength="1" d="M227 130 C254 118 250 103 235 107 C219 112 216 142 231 152 C248 164 269 147 282 134" style="--stroke-delay:7.3s;--stroke-duration:0.18s"/><path class="signature-stroke" data-stroke="f" pathLength="1" d="M282 134 C302 109 324 55 309 46 C293 39 270 105 270 156 C270 194 282 215 294 199 C308 177 283 155 273 153 C292 155 315 142 330 122" style="--stroke-delay:7.48s;--stroke-duration:0.38s"/><path class="signature-stroke" data-stroke="u" pathLength="1" d="M330 122 C321 141 315 156 330 156 C345 156 360 124 365 111 C351 139 349 161 366 155 C378 151 391 138 400 126" style="--stroke-delay:7.86s;--stroke-duration:0.2s"/><path class="signature-stroke" data-stroke="t" pathLength="1" d="M400 126 C415 103 426 72 426 67 C424 65 406 105 400 128 C386 159 404 169 425 150 C432 144 438 137 445 129" style="--stroke-delay:8.06s;--stroke-duration:0.22s"/><path class="signature-stroke" data-stroke="e" pathLength="1" d="M445 129 C472 117 469 104 454 108 C439 113 435 143 452 153 C470 164 490 146 505 132" style="--stroke-delay:8.28s;--stroke-duration:0.18s"/><path class="signature-stroke" data-stroke="c" pathLength="1" d="M505 132 C526 96 557 97 560 111 C544 96 513 116 515 141 C517 166 550 163 572 142 C586 133 600 135 614 136" style="--stroke-delay:8.46s;--stroke-duration:0.24s"/><path class="signature-stroke" data-stroke="f-cross" pathLength="1" d="M253 121 C269 116 288 113 304 111" style="--stroke-delay:8.7s;--stroke-duration:0.12s"/><path class="signature-stroke" data-stroke="t-cross" pathLength="1" d="M389 106 C405 104 427 101 444 97" style="--stroke-delay:8.82s;--stroke-duration:0.12s"/></svg></div></div><div class="endcap">SOFTWARE TESTING / DEVELOPMENT / SOLUTIONS</div></section>
+  </main>
+  <script>
+    (() => {
+      let playing = false;
+      window.addEventListener('message', event => {
+        if (event.source !== parent) return;
+        if (event.data?.type === 'corefutec:ping') {
+          parent.postMessage({ type: 'corefutec:ready' }, '*');
+        } else if (event.data?.type === 'corefutec:play' && !playing) {
+          playing = true;
+          document.body.classList.remove('is-static');
+        } else if (event.data?.type === 'corefutec:finish') {
+          document.body.classList.add('is-static');
+        }
+      });
+      document.querySelector('.scene-three').addEventListener('animationend', event => {
+        if (event.target.classList.contains('scene-three')) {
+          // Keep the last frame visible even before the parent receives completion.
+          document.body.classList.add('is-static');
+          parent.postMessage({ type: 'corefutec:complete' }, '*');
+        }
+      });
+      parent.postMessage({ type: 'corefutec:ready' }, '*');
+    })();
+  </script>
+</body>
+</html>
