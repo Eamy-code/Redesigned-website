@@ -2,7 +2,7 @@
 /* Consistent English section titles with compact Japanese labels. */
 .page-home main .display-head{font:700 clamp(36px,5.33vw,81px)/1.06 Poppins,sans-serif;letter-spacing:-.065em}
 .page-home .blue-statement .display-head,.page-home .split-recruit .display-head{color:#fff}
-.page-home .blue-statement .display-head{margin-top:16px}
+.page-home .blue-statement .display-head{margin:16px 0 clamp(32px,4vw,64px)}
 .page-home .split-recruit .home-recruit-message{font-size:clamp(18px,1.8vw,25px);font-weight:700;line-height:1.7;margin-bottom:20px}
 .page-home .hero{min-height:0;padding:0}
 .page-home .hero-inner{padding-left:var(--pad);padding-right:var(--pad)}
@@ -33,6 +33,10 @@ html:not(.home-intro-active) .page-home.home-scroll-enabled .hero{position:stick
 .page-home .home-contact .btn-arrow:hover{color:#fff}
 .page-home .home-trust{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;list-style:none;padding:0;margin:0 0 55px}
 .page-home .home-trust li{border-top:1px solid #ffffff70;padding-top:20px;font-size:clamp(16px,1.7vw,24px);font-weight:700;line-height:1.7}
+.page-home .home-trust-image{aspect-ratio:1;overflow:hidden;margin-bottom:22px;background:#e9eef5}
+.page-home .home-trust-image img{display:block;width:100%;height:100%;object-fit:cover}
+.page-home .home-trust-image--experience img{object-position:22% center}
+.page-home .home-trust-title{display:block}
 .page-home .home-benefits,.page-home .home-product,.page-home .home-company{max-width:1700px;margin:auto}
 .page-home .home-benefits{padding-top:70px}
 .page-home .home-benefit-list{list-style:none;padding:0;margin:0 0 55px;border-top:1px solid var(--line)}

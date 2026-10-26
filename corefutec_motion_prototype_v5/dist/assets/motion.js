@@ -81,8 +81,8 @@
         { opacity: 0, transform: 'translate3d(0,16px,0)' },
         { opacity: 1, transform: 'translate3d(0,0,0)' }
       ], {
-        duration: heading ? 900 : 600,
-        easing: 'cubic-bezier(.22,1,.36,1)',
+        duration: heading ? 1300 : 600,
+        easing: heading ? 'cubic-bezier(.45,0,.25,1)' : 'cubic-bezier(.22,1,.36,1)',
         fill: 'both'
       });
     } catch {
