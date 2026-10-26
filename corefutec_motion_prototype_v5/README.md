@@ -21,11 +21,14 @@ Solvvyの**余白・英字見出しの緊張感・ブランドブルー・メガ
 
 ## 生成・変更
 
+ホームを変更するときは、プロジェクト直下の `index.html` を編集してからビルドしてください。確認には `dist/index.html` を使用します。ホームの文章はJavaScript内に埋め込まず、HTMLを直接編集します。
+
 ```bash
 node build.mjs
 ```
 
-- `build.mjs`: 静的HTMLのページ構造、文言とナビゲーションの元データ
+- `index.html`: ホーム画面の編集元。通常のHTMLとして2スペースのインデントで記述。
+- `build.mjs`: ホームのHTMLをdistへコピーし、下層ページを生成。下層の文言と共通ナビゲーションの元データ
 - `assets/style.css`: デザインシステム・レイアウト・アニメーション
 - `assets/page-variants.css`: 下層ページごとのレイアウト・色・文字組み・固有の図案
 - `assets/motion.js`: メガメニュー・モバイルナビ・スクロール連動制御

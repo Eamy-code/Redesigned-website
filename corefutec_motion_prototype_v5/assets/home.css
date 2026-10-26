@@ -1,0 +1,55 @@
+/* Home-only adjustments for the original corporate copy. */
+.page-home .home-trust{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;list-style:none;padding:0;margin:0 0 55px}
+.page-home .home-trust li{border-top:1px solid #ffffff70;padding-top:20px;font-size:clamp(16px,1.7vw,24px);font-weight:700;line-height:1.7}
+.page-home .home-benefits,.page-home .home-product,.page-home .home-company{max-width:1700px;margin:auto}
+.page-home .home-benefits{padding-top:70px}
+.page-home .home-benefit-list{list-style:none;padding:0;margin:0 0 55px;border-top:1px solid var(--line)}
+.page-home .home-benefit-list li{padding:22px 0;border-bottom:1px solid var(--line);font-size:clamp(15px,1.5vw,20px);line-height:1.9}
+.page-home .home-standard-label{font-size:clamp(23px,2.5vw,34px);margin:0 0 15px}
+.page-home .home-body-copy{font-size:15px;line-height:2.1;max-width:760px;margin-bottom:30px}
+.page-home .home-product{border-top:1px solid var(--line)}
+.page-home .home-product-body{display:grid;grid-template-columns:1fr 1.3fr;gap:70px}
+.page-home .home-product-body h3{font-size:clamp(26px,3.2vw,44px);letter-spacing:-.05em}
+.page-home .home-news>a{grid-template-columns:110px minmax(0,1fr) 155px 30px;gap:24px}
+.page-home .home-news time{font:500 12px Poppins,sans-serif}
+.page-home .home-news strong{font-size:clamp(16px,1.4vw,20px);line-height:1.8;overflow-wrap:anywhere}
+.page-home .home-company{padding-top:0}
+.page-home .home-company-details{margin:0 0 40px;border-top:1px solid var(--line)}
+.page-home .home-company-details>div{display:grid;grid-template-columns:180px minmax(0,1fr);gap:35px;border-bottom:1px solid var(--line);padding:28px 0;font-size:15px;line-height:2}
+.page-home .home-company-details dt{font-weight:700}
+.page-home .home-company-details dd{margin:0;overflow-wrap:anywhere}
+.page-home .home-company-details ul{padding-left:1.3em;margin:0}
+.page-home .home-contact{background:var(--blue);color:white}
+.page-home .home-contact .display-head,.page-home .home-contact .eyebrow,.page-home .home-contact .section-desc{color:white}
+@media(max-width:950px){.page-home .home-news>a{grid-template-columns:100px minmax(0,1fr) 25px}.page-home .home-news small{display:none}}
+@media(max-width:680px){
+  .page-home .hero-topline{font-size:10px;line-height:1.8;letter-spacing:.04em}
+  .page-home .home-trust{grid-template-columns:1fr;gap:18px;margin-bottom:35px}
+  .page-home .home-trust li{padding-top:14px}
+  .page-home .home-product-body{grid-template-columns:1fr;gap:12px}
+  .page-home .home-body-copy{font-size:14px}
+  .page-home .home-news>a{grid-template-columns:minmax(0,1fr) 25px;gap:8px 14px;padding:25px 0}
+  .page-home .home-news time{grid-column:1;font-size:11px}
+  .page-home .home-news strong{grid-column:1}
+  .page-home .home-news b{grid-column:2;grid-row:1/3}
+  .page-home .home-company-details>div{grid-template-columns:1fr;gap:8px;font-size:14px}
+}
+/* Open editorial service rows, without cards or a stacked deck. */
+.page-home .service-row{grid-template-columns:38px minmax(0,.85fr) minmax(0,1fr) 32px;align-items:start;gap:28px;padding:42px 8px;min-height:0}
+.page-home .service-number{margin-top:8px}
+.page-home .service-text h3{font-size:clamp(22px,2.5vw,34px);line-height:1.3;margin-bottom:12px}
+.page-home .service-descriptor{font-size:14px;line-height:2.1;overflow-wrap:anywhere}
+.page-home .service-icon{font-size:25px}
+.page-home .service-row::before{display:none}
+.page-home .service-row:hover{background:transparent;color:var(--ink);padding-left:8px}
+.page-home .service-row:hover .service-descriptor{color:#6c7480}
+.page-home .service-row:hover .service-text h3{color:var(--blue)}
+@media(max-width:680px){
+  .page-home .service-row{grid-template-columns:26px minmax(0,1fr) 25px;gap:16px 12px;padding:30px 0}
+  .page-home .service-number{grid-column:1;grid-row:1;margin-top:6px}
+  .page-home .service-text{grid-column:2;grid-row:1}
+  .page-home .service-text h3{font-size:23px}
+  .page-home .service-descriptor{display:block;grid-column:2;grid-row:2;font-size:13px}
+  .page-home .service-icon{grid-column:3;grid-row:1}
+  .page-home .service-row:hover{padding-left:0}
+}

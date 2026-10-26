@@ -60,6 +60,11 @@
     if (e.matches && drawer?.classList.contains('is-open')) setDrawer(false);
   });
 
+  // Reuse the same reveal for headings and their labels across all templates.
+  // A heading inside an animated row/card already moves with its parent.
+  document.querySelectorAll('main h1, main h2, main h3, main .eyebrow, .footer-upper .eyebrow, .footer-upper p').forEach(el => {
+    if (!el.closest('[data-reveal="left"]')) el.setAttribute('data-reveal', 'left');
+  });
   const reveals = document.querySelectorAll('[data-reveal="left"]');
   if (reduce.matches || !('IntersectionObserver' in window)) {
     reveals.forEach(el => el.classList.add('is-visible'));

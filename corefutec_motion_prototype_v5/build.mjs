@@ -1,4 +1,4 @@
-import { mkdir, writeFile, copyFile } from 'node:fs/promises';
+import { mkdir, readFile, writeFile, copyFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 
@@ -48,26 +48,6 @@ function pageWrap({depth=0,selected='',title='CORE FUTEC',description='',body=''
   return `<!doctype html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f5f6f7"><meta name="description" content="${esc(description||'コアフューテックのコーポレートサイト・採用サイト統合リニューアル。静的デザインプロトタイプ。')}"><title>${esc(title)} | コアフューテック</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="${'../'.repeat(depth)}assets/style.css"><link rel="stylesheet" href="${'../'.repeat(depth)}assets/page-variants.css"></head><body class="${cls}"><a class="skip-link" href="#main">本文へ移動</a>${header(depth,selected)}<main id="main">${body}</main>${footer(depth)}<script defer src="${'../'.repeat(depth)}assets/motion.js"></script></body></html>`;
 }
 const smallHead = (eyebrow,title,desc='') => `<div class="section-heading"><div><span class="eyebrow" data-reveal="left">${eyebrow}</span><h2 class="display-head" data-reveal="left">${title}</h2></div>${desc?`<p class="section-desc" data-reveal="left">${desc}</p>`:''}</div>`;
-function landing(depth=0){return `<section class="hero" aria-label="ファーストビュー"><div class="hero-ambient" aria-hidden="true"><div class="outline-ring outline-ring--a"></div><div class="outline-ring outline-ring--b"></div></div><div class="hero-inner">
-  <div class="hero-topline"><span>SOFTWARE QUALITY & ENGINEERING</span><span class="hero-index">01 — CONTINUE TO EXPLORE</span></div>
-  <h1 class="hero-display"><span class="hero-line"><span>Quality,</span></span><span class="hero-line"><span>redefined<span class="blue-period">.</span></span></span></h1>
-  <div class="hero-bottom"><p class="hero-lead">技術と向き合い、<br>確かな品質の、その先へ。</p><div class="hero-aside"><span class="hero-aside-tag">CORE FUTEC</span><p>ソフトウェアテスト・第三者検証、<br>ソフトウェア開発、ソリューション。</p>${action('services','事業を知る',depth)}</div></div>
-  <div class="scroll-cue"><span>SCROLL TO EXPLORE</span><i aria-hidden="true"></i></div>
-  </div></section>
-  <section class="blue-statement"><div class="statement-inner"><span class="eyebrow" data-reveal="left">01 / OUR PERSPECTIVE</span><h2 data-reveal="left">「動く」の先にある、<br><em>「信頼できる」</em>まで。</h2><div class="statement-bottom"><p data-reveal="left">ソフトウェアの価値は、完成した瞬間だけで決まりません。使われ続ける未来を考えること。品質への向き合い方を、ひとつ先へ。</p>${action('strengths','私たちの考え方',depth,true)}</div></div></section>
-  <div class="marquee" aria-label="コアフューテック、品質、検証、開発、技術"><div class="marquee-track"><span>CORE FUTEC / QUALITY / VERIFICATION / DEVELOPMENT / TECHNOLOGY /&nbsp;</span><span aria-hidden="true">CORE FUTEC / QUALITY / VERIFICATION / DEVELOPMENT / TECHNOLOGY /&nbsp;</span></div></div>
-  <section class="services-section section-pad" id="services">${smallHead('02 / WHAT WE DO','What we <span class="blue-period">do.</span>','課題と目的に応じて、3つの領域から。')}<div class="service-list">
-    ${[['01','Software Testing','ソフトウェアテスト・第三者検証','製品・サービスの品質を検証する。','test'],['02','Software Development','ソフトウェア開発','求められる機能を、確かな技術へ。','develop'],['03','Solutions','ソリューション','技術的な課題を整理し、解決につなげる。','solution']].map(([n,en,jp,desc,key])=>`<a class="service-row" href="${r(key,depth)}"><span class="service-number">${n}</span><div class="service-text"><h3>${en}</h3><p>${jp}</p></div><span class="service-descriptor">${desc}</span><span class="service-icon">↗</span></a>`).join('')}
-  </div>${action('services','すべてのサービス',depth)}</section>
-  <section class="stack-section section-pad" id="motion-cards">${smallHead('03 / OUR APPROACH','Three perspectives<span class="blue-period">.</span>','スクロールに合わせてカードが重なり、次の領域へと切り替わります。')}
-  <div class="stack-deck" data-stack>
-    <article class="stack-card stack-card--one"><div class="stack-content"><span class="stack-label">PERSPECTIVE 01 <span>—</span> TEST</span><h3>見えない<br>不安に、<br>検証という力を。</h3><p>ソフトウェアテスト・第三者検証</p>${action('test','詳しく見る',depth,true)}</div><div class="stack-art art-test" aria-hidden="true"><div class="test-matrix"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div><span>VERIFY<br>EVERY LAYER.</span></div><div class="card-step">01 / 03</div></article>
-    <article class="stack-card stack-card--two"><div class="stack-content"><span class="stack-label">PERSPECTIVE 02 <span>—</span> BUILD</span><h3>設計から、<br>実装のその先へ。</h3><p>ソフトウェア開発</p>${action('develop','詳しく見る',depth,true)}</div><div class="stack-art art-build" aria-hidden="true"><div class="build-windows"><div><b>01</b><span>STRUCTURE</span><i></i><i></i></div><div><b>02</b><span>INTEGRATE</span><i></i><i></i><i></i></div><div><b>03</b><span>DELIVER</span><i></i><i></i></div></div></div><div class="card-step">02 / 03</div></article>
-    <article class="stack-card stack-card--three"><div class="stack-content"><span class="stack-label">PERSPECTIVE 03 <span>—</span> SOLVE</span><h3>複雑な課題を、<br>次の可能性へ。</h3><p>ソリューション</p>${action('solution','詳しく見る',depth,true)}</div><div class="stack-art art-solve" aria-hidden="true"><div class="solve-orbit"><i></i><i></i><i></i><b>CF.</b></div></div><div class="card-step">03 / 03</div></article>
-  </div></section>
-  <section class="split-recruit"><div class="split-recruit-copy"><span class="eyebrow" data-reveal="left">04 / PEOPLE & FUTURE</span><h2 data-reveal="left">People make<br><span>the future.</span></h2><p>ひとりの技術が、チームの力へ。<br>コアフューテックでの仕事と、働く環境をご紹介します。</p>${action('recruit','採用情報を見る',depth,true)}</div><a class="split-recruit-art" href="${r('recruit',depth)}" aria-label="採用情報を見る"><div class="recruit-graphic"><span>FUTURE</span><b>↗</b><em>CREATE<br>TOGETHER</em></div></a></section>
-  <section class="news-section section-pad">${smallHead('05 / JOURNAL','Information<span class="blue-period">.</span>','コアフューテックからのお知らせと技術コラム。')}<div class="news-bands"><a href="${r('news',depth)}"><span>01</span><strong>お知らせ</strong><small>INFORMATION</small><b>↗</b></a><a href="${r('column',depth)}"><span>02</span><strong>技術コラム</strong><small>TECHNOLOGY JOURNAL</small><b>↗</b></a></div></section>`;}
-
 const pageData = {
   services:{label:'サービス',eyebrow:'WHAT WE DO',title:'Technology is<br><i>our language.</i>',lead:'ソフトウェアの品質と開発を、技術の視点から支えます。',intro:'3つの事業領域',items:[['Software Testing','第三者検証・ソフトウェアテスト','test'],['Development','ソフトウェア開発','develop'],['Solutions','ソリューション','solution']]},
   test:{label:'ソフトウェアテスト・第三者検証',eyebrow:'SOFTWARE TESTING',title:'Test for<br><i>confidence.</i>',lead:'品質の不安を見える化し、次の判断につなげます。',intro:'対象となるテーマ',items:[['Verification','第三者の立場による検証','test'],['Process','品質を確かめるプロセス','process'],['Talk to us','検証について相談する','contact']]},
@@ -123,11 +103,12 @@ function inside(key,depth){
   return pageWrap({depth,title:p.label,selected,cls:`page-variant page-${key}${recruitKeys.has(key)?' is-recruit':''}`,body:renderArchetype[archetypes[key]](key,p,depth)});
 }
 async function build(){
-  const all=[['index.html',pageWrap({title:'TOP',selected:'',body:landing()})]];
+  const homeHtml = await readFile(path.join(sourceDir, 'index.html'), 'utf8');
+  const all = [['index.html', homeHtml]];
   for(const [key,slug] of Object.entries(links)){if(key==='home')continue;const rel=slug.replace(/^\//,'')+'index.html';const depth=rel.split('/').length-1;all.push([rel,inside(key,depth)]);}
   for(const [file,html] of all){const to=path.join(outDir,file);await mkdir(path.dirname(to),{recursive:true});await writeFile(to,html,'utf8');}
   await mkdir(path.join(outDir,'assets'),{recursive:true});
-  for(const name of ['style.css','page-variants.css','motion.js'])await copyFile(path.join(sourceDir,'assets',name),path.join(outDir,'assets',name));
+  for(const name of ['style.css','page-variants.css','home.css','motion.js'])await copyFile(path.join(sourceDir,'assets',name),path.join(outDir,'assets',name));
   console.log(`Built ${all.length} static HTML pages in ${outDir}`);
 }
 build().catch(e=>{console.error(e);process.exitCode=1});
