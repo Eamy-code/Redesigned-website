@@ -12,7 +12,9 @@
 
   const backgroundElements = [...document.querySelectorAll('#main, .site-bar, .site-footer, .skip-link')];
   const previousInert = backgroundElements.map(element => element.inert);
-  backgroundElements.forEach(element => { element.inert = true; });
+  backgroundElements.forEach(element => {
+    element.inert = true;
+  });
   const navigationItems = [...document.querySelectorAll('.site-header .nav-item, .site-header .plain-nav, .site-header .header-contact')];
   navigationItems.forEach((item, index) => item.style.setProperty('--home-nav-delay', `${.15 + index * .06}s`));
   document.documentElement.classList.add('home-intro-active');
@@ -47,7 +49,9 @@
     backdrop.remove();
     document.documentElement.classList.remove('home-intro-active', 'home-intro-docking');
     navigationItems.forEach(item => item.style.removeProperty('--home-nav-delay'));
-    backgroundElements.forEach((element, index) => { element.inert = previousInert[index]; });
+    backgroundElements.forEach((element, index) => {
+      element.inert = previousInert[index];
+    });
     window.removeEventListener('message', onMessage);
     window.removeEventListener('resize', onResize);
     document.removeEventListener('keydown', onKeydown);
@@ -69,9 +73,25 @@
     document.documentElement.classList.add('home-intro-docking');
     backdrop.classList.add('is-docking');
     transition = player.animate([
-      { left: player.style.left, top: player.style.top, width: player.style.width, height: player.style.height, borderRadius: '0px' },
-      { left: `${target.left}px`, top: `${target.top}px`, width: `${target.width}px`, height: `${target.height}px`, borderRadius: '0px' }
-    ], { duration: 1800, easing: 'cubic-bezier(.16,1,.3,1)', fill: 'forwards' });
+      {
+        left: player.style.left,
+        top: player.style.top,
+        width: player.style.width,
+        height: player.style.height,
+        borderRadius: '0px'
+      },
+      {
+        left: `${target.left}px`,
+        top: `${target.top}px`,
+        width: `${target.width}px`,
+        height: `${target.height}px`,
+        borderRadius: '0px'
+      }
+    ], {
+      duration: 1800,
+      easing: 'cubic-bezier(.16,1,.3,1)',
+      fill: 'forwards'
+    });
     transition.finished.then(cleanup, cleanup);
   }
 
@@ -86,9 +106,15 @@
       dock();
     }
   }
-  function onResize() { docking ? cleanup() : fitIntro(); }
-  function onKeydown(event) { if (event.key === 'Escape') dock(); }
-  function onMotionChange(event) { if (event.matches) dock(true); }
+  function onResize() {
+    docking ? cleanup() : fitIntro();
+  }
+  function onKeydown(event) {
+    if (event.key === 'Escape') dock();
+  }
+  function onMotionChange(event) {
+    if (event.matches) dock(true);
+  }
   window.addEventListener('message', onMessage);
   window.addEventListener('resize', onResize);
   document.addEventListener('keydown', onKeydown);

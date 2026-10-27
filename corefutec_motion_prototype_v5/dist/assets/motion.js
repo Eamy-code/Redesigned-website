@@ -31,7 +31,10 @@
       clearTimeout(closeTimer);
       closeTimer = window.setTimeout(() => setMenu(null), 125);
     });
-    item.addEventListener('focusin', () => { clearTimeout(closeTimer); setMenu(index); });
+    item.addEventListener('focusin', () => {
+      clearTimeout(closeTimer);
+      setMenu(index);
+    });
     item.addEventListener('focusout', event => {
       if (!item.contains(event.relatedTarget)) setMenu(null);
     });
@@ -75,11 +78,23 @@
     let animation;
     try {
       animation = element.animate(heading ? [
-        { maskPosition: '100% 0%', webkitMaskPosition: '100% 0%' },
-        { maskPosition: '0% 0%', webkitMaskPosition: '0% 0%' }
+        {
+          maskPosition: '100% 0%',
+          webkitMaskPosition: '100% 0%'
+        },
+        {
+          maskPosition: '0% 0%',
+          webkitMaskPosition: '0% 0%'
+        }
       ] : [
-        { opacity: 0, transform: 'translate3d(0,16px,0)' },
-        { opacity: 1, transform: 'translate3d(0,0,0)' }
+        {
+          opacity: 0,
+          transform: 'translate3d(0,16px,0)'
+        },
+        {
+          opacity: 1,
+          transform: 'translate3d(0,0,0)'
+        }
       ], {
         duration: heading ? 1300 : 600,
         easing: heading ? 'cubic-bezier(.45,0,.25,1)' : 'cubic-bezier(.22,1,.36,1)',
@@ -103,7 +118,10 @@
         revealElement(entry.target);
         observer.unobserve(entry.target);
       }
-    }, { threshold: 0, rootMargin: '0px 0px 40px 0px' });
+    }, {
+      threshold: 0,
+      rootMargin: '0px 0px 40px 0px'
+    });
     reveals.forEach(element => observer.observe(element));
   }
 

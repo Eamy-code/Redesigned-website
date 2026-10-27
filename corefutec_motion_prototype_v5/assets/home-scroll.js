@@ -7,7 +7,13 @@
   if (!slot || !content) return;
 
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
-  const properties = ['--content-inset', '--content-radius', '--content-lift', '--signature-opacity', '--signature-offset'];
+  const properties = [
+    '--content-inset',
+    '--content-radius',
+    '--content-lift',
+    '--signature-opacity',
+    '--signature-offset'
+  ];
   let scrollStart = 0;
   let scrollDistance = 1;
   let maximumLift = 0;
