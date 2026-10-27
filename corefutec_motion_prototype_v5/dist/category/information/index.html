@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="theme-color" content="#f5f6f7">
-    <meta name="description" content="コアフューテックのコーポレートサイト・採用サイト統合リニューアル。静的デザインプロトタイプ。">
+    <meta name="description" content="コアフューテックからのお知らせ。採用情報、企業情報、メディア掲載のお知らせをご覧いただけます。">
     <title>お知らせ | コアフューテック</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../../assets/css/style.css">
     <link rel="stylesheet" href="../../assets/css/page-variants.css">
+    <link rel="stylesheet" href="../../assets/css/news.css">
   </head>
   <body class="page-variant page-news">
     <a class="skip-link" href="#main">本文へ移動</a>
@@ -116,7 +117,7 @@
                 </div>
               </div>
             </div>
-            <div class="nav-item is-current" data-mega-item="2">
+            <div class="nav-item " data-mega-item="2">
               <a href="../../company/index.html" class="nav-anchor">企業情報</a>
               <button class="nav-expand" aria-label="企業情報のメニューを開閉" aria-controls="mega-2" aria-expanded="false" type="button">＋</button>
               <div class="mega-panel" id="mega-2" aria-hidden="true">
@@ -217,7 +218,7 @@
                 </div>
               </div>
             </div>
-            <a href="../../category/information/index.html" class="plain-nav">お知らせ</a>
+            <a href="../../category/information/index.html" class="plain-nav" aria-current="page">お知らせ</a>
           </nav>
           <a href="../../contact/index.html" class="header-contact">お問い合わせ <span aria-hidden="true">●</span></a>
           <button class="hamburger" type="button" aria-expanded="false" aria-controls="mobile-drawer" aria-label="メニューを開く">
@@ -263,54 +264,109 @@
       </div>
     </div>
     <main id="main">
-      <section class="variant-hero variant-hero--journal theme-news">
-        <div class="journal-masthead">
-          <span class="eyebrow">CORE FUTEC / EDITORIAL</span>
-          <span>ARCHIVE / INFORMATION</span>
-        </div>
-        <h1 data-reveal="left">News &<br><i>updates.</i></h1>
-        <div class="journal-subtitle">
-          <p>お知らせ</p>
-          <span>READ / LEARN / EXPLORE</span>
+      <section class="news-hero">
+        <div class="news-container">
+          <h1 data-reveal="left">お知らせ</h1>
+          <p class="news-hero-word" data-reveal="left" aria-hidden="true">News</p>
+          <nav class="news-breadcrumb" aria-label="パンくずリスト">
+            <a href="../../index.html">ホーム</a>
+            <span aria-hidden="true">/</span>
+            <span aria-current="page">お知らせ</span>
+          </nav>
         </div>
       </section>
-      <section class="journal-body section-pad">
-        <div>
-          <ul>
-            <li>
-              <time datetime="2023-07-04T03:19:00+09:00">2023-07-04</time>
-              <a href="../../8月4日-東京都市大学【オンライン】学内合同企業/index.html">8月4日 東京都市大学【オンライン】学内合同企業説明会</a>
+      <section class="news-archive news-container" aria-label="お知らせ一覧" data-news-archive>
+        <div class="news-controls" role="group" aria-label="お知らせの絞り込み">
+          <div class="news-filter-group news-filter-categories">
+            <span class="news-filter-label" id="news-category-label">カテゴリー</span>
+            <div class="news-category-buttons" role="group" aria-labelledby="news-category-label">
+              <button type="button" data-news-category="all" aria-pressed="true">すべて</button>
+              <button type="button" data-news-category="recruit" aria-pressed="false">採用情報</button>
+              <button type="button" data-news-category="company" aria-pressed="false">企業情報</button>
+              <button type="button" data-news-category="media" aria-pressed="false">メディア掲載</button>
+            </div>
+          </div>
+          <div class="news-filter-group">
+            <label class="news-filter-label" for="news-year">年</label>
+            <select id="news-year" data-news-year>
+              <option value="all">すべて</option>
+              <option value="2023">2023年</option>
+            </select>
+          </div>
+          <button type="button" class="news-reset" data-news-reset disabled>絞り込み解除 <span aria-hidden="true">×</span></button>
+        </div>
+        <div class="news-results" id="news-results" tabindex="-1">
+          <p class="news-result-count" aria-live="polite" aria-atomic="true" data-news-count>全6件<span>1–5件を表示</span></p>
+          <ul class="news-list" data-news-list>
+            <li class="news-item">
+              <a class="news-item-link" href="../../8月4日-東京都市大学【オンライン】学内合同企業/index.html">
+                <div class="news-item-meta">
+                  <time datetime="2023-07-04">2023.07.04</time>
+                  <span class="news-category">採用情報</span>
+                </div>
+                <h2 class="news-item-title" data-reveal="none">東京都市大学のオンライン学内合同企業説明会に参加します</h2>
+                <span class="news-item-marker" aria-hidden="true">↗</span>
+              </a>
             </li>
-            <li>
-              <time datetime="2023-06-07T03:16:00+09:00">2023-06-07</time>
-              <a href="../../7月7日-インターンシップ合同マッチング会/index.html">7月7日 インターンシップ合同マッチング会</a>
+            <li class="news-item">
+              <a class="news-item-link" href="../../7月7日-インターンシップ合同マッチング会/index.html">
+                <div class="news-item-meta">
+                  <time datetime="2023-06-07">2023.06.07</time>
+                  <span class="news-category">採用情報</span>
+                </div>
+                <h2 class="news-item-title" data-reveal="none">インターンシップ合同マッチング会に参加します</h2>
+                <span class="news-item-marker" aria-hidden="true">↗</span>
+              </a>
             </li>
-            <li>
-              <time datetime="2023-05-20T03:15:00+09:00">2023-05-20</time>
-              <a href="../../創立40周年を迎えることができました/index.html">創立40周年を迎えることができました</a>
+            <li class="news-item">
+              <a class="news-item-link" href="../../創立40周年を迎えることができました/index.html">
+                <div class="news-item-meta">
+                  <time datetime="2023-05-20">2023.05.20</time>
+                  <span class="news-category">企業情報</span>
+                </div>
+                <h2 class="news-item-title" data-reveal="none">創立40周年を迎えました</h2>
+                <span class="news-item-marker" aria-hidden="true">↗</span>
+              </a>
             </li>
-            <li>
-              <time datetime="2023-04-14T03:08:00+09:00">2023-04-14</time>
-              <a href="../../management-policy/index.html">経営指針発表会</a>
+            <li class="news-item">
+              <a class="news-item-link" href="../../management-policy/index.html">
+                <div class="news-item-meta">
+                  <time datetime="2023-04-14">2023.04.14</time>
+                  <span class="news-category">企業情報</span>
+                </div>
+                <h2 class="news-item-title" data-reveal="none">経営指針発表会を行いました</h2>
+                <span class="news-item-marker" aria-hidden="true">↗</span>
+              </a>
             </li>
-            <li>
-              <time datetime="2023-04-03T03:02:00+09:00">2023-04-03</time>
-              <a href="../../initiation-ceremony-for-2023/index.html">2023年度 入社式を行いました</a>
-            </li>
-            <li>
-              <time datetime="2023-03-30T02:55:48+09:00">2023-03-30</time>
-              <a href="../../e-dennosuke-in-newspaper/index.html">日本経済新聞に「e伝之介くん」が掲載されました</a>
+            <li class="news-item">
+              <a class="news-item-link" href="../../initiation-ceremony-for-2023/index.html">
+                <div class="news-item-meta">
+                  <time datetime="2023-04-03">2023.04.03</time>
+                  <span class="news-category">採用情報</span>
+                </div>
+                <h2 class="news-item-title" data-reveal="none">2023年度の入社式を行いました</h2>
+                <span class="news-item-marker" aria-hidden="true">↗</span>
+              </a>
             </li>
           </ul>
+          <p class="news-empty" data-news-empty hidden>
+            条件に一致するお知らせはありません。<br>
+            カテゴリーや年を変更してご覧ください。
+          </p>
+          <nav class="news-pagination" aria-label="お知らせのページ切り替え" data-news-pagination>
+            <span class="news-page-prev" aria-disabled="true"><span aria-hidden="true">←</span> Prev</span>
+            <ol class="news-page-numbers">
+              <li>
+                <span class="news-page-number" aria-current="page">1</span>
+              </li>
+              <li>
+                <a class="news-page-number" href="../../category/information/page/2/index.html#news-results" data-news-page="2">2</a>
+              </li>
+            </ol>
+            <a class="news-page-next" href="../../category/information/page/2/index.html#news-results" data-news-page="2">Next <span aria-hidden="true">→</span></a>
+          </nav>
         </div>
-      </section>
-      <section class="next-action">
-        <span class="eyebrow" data-reveal="left">MAKE A CONNECTION</span>
-        <h2 data-reveal="left">Let’s take<br>the next step<span>.</span></h2>
-        <a href="../../contact/index.html" class="btn-arrow btn-arrow--light">
-          <span>お問い合わせ</span>
-          <span class="arrow-orb" aria-hidden="true">↗</span>
-        </a>
+        <script type="application/json" id="news-data">{"pageSize":5,"categories":[{"id":"recruit","label":"採用情報"},{"id":"company","label":"企業情報"},{"id":"media","label":"メディア掲載"}],"years":["2023"],"pageUrls":["../../category/information/index.html","../../category/information/page/2/index.html"],"items":[{"title":"東京都市大学のオンライン学内合同企業説明会に参加します","date":"2023-07-04","category":"recruit","categoryLabel":"採用情報","href":"../../8月4日-東京都市大学【オンライン】学内合同企業/index.html"},{"title":"インターンシップ合同マッチング会に参加します","date":"2023-06-07","category":"recruit","categoryLabel":"採用情報","href":"../../7月7日-インターンシップ合同マッチング会/index.html"},{"title":"創立40周年を迎えました","date":"2023-05-20","category":"company","categoryLabel":"企業情報","href":"../../創立40周年を迎えることができました/index.html"},{"title":"経営指針発表会を行いました","date":"2023-04-14","category":"company","categoryLabel":"企業情報","href":"../../management-policy/index.html"},{"title":"2023年度の入社式を行いました","date":"2023-04-03","category":"recruit","categoryLabel":"採用情報","href":"../../initiation-ceremony-for-2023/index.html"},{"title":"日本経済新聞で「e伝之介くん」が紹介されました","date":"2023-03-30","category":"media","categoryLabel":"メディア掲載","href":"../../e-dennosuke-in-newspaper/index.html"}]}</script>
       </section>
     </main>
     <footer class="site-footer">
@@ -346,5 +402,6 @@
       </div>
     </footer>
     <script defer src="../../assets/js/motion.js"></script>
+    <script defer src="../../assets/js/news.js"></script>
   </body>
 </html>

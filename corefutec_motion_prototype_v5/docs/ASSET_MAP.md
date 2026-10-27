@@ -114,3 +114,15 @@ Solvvyの公開コード（`modules/opening/opening-animation-pc.js`、`opening-
 | 分析出力 3.png | about-quality.png | コアフューテック基準のテスト技術 |
 
 1枚目は数字40が欠けないよう、object-positionを22% centerに設定しています。PCでは3列、スマートフォンでは1列です。altテキストはすべてイメージ画像であることが分かる表記にしています。3点はビルド時にdist/assetsへコピーされます。
+
+
+## 2026年10月27日 — お知らせ一覧・記事ページ
+
+- 一覧は `/category/information/` と `/category/information/page/2/`。1ページ5件で静的HTMLを生成し、JavaScript無効時もページ間を移動できます。
+- `content/news.mjs` が表示用データと原文記録を結び、一覧・記事・前後記事リンクを生成します。
+- `content/news-entries.json` に見出し、内容に基づく分類、導入文、使用画像と取得元URL・日時・サイズを保存しました。元の公開日時は保持しています。
+- `assets/css/news.css` は一覧・記事の8ページだけで読み込みます。共通CSSは変更していません。
+- `assets/js/news.js` は一覧2ページだけで読み込みます。全6記事を対象にしたカテゴリー・年の絞り込み、ページ切り替え、URLとブラウザー履歴を管理します。
+- `assets/images/news/` に元記事から取得した3画像を保存し、ビルド時に同じ配置でコピーします。画像の描き直しや生成、外部ライブラリの追加はありません。
+- 参考UI：<https://solvvy.co.jp/news/>。青い英字見出し、絞り込み操作、日付・分類バッジ、罫線リストとページャーを参考に独自実装しました。
+

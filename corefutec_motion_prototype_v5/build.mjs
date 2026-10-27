@@ -3,6 +3,7 @@ import { fileURLToPath } from 'node:url';
 import path from 'node:path';
 import { pageContent, extraPages, extraPageContent, localizeLinks } from './content/pages.mjs';
 import { formatHtml } from './scripts/format-html.mjs';
+import { renderNewsArchive, renderNewsArticle, findNewsItem, newsPageCount, newsArchivePath, newsImageFiles } from './content/news.mjs';
 
 const sourceDir = path.dirname(fileURLToPath(import.meta.url));
 const outDir = path.join(sourceDir, 'dist');
@@ -91,7 +92,7 @@ function header(depth, selected) {
   const mobiles = sections.map(g => `<div class="mobile-group"><div class="mobile-group-title">${g.name}</div>${g.pages.map(([k, n]) => a(k, `${n}<span>↗</span>`, depth)).join('')}</div>`).join('');
   return `<div class="site-bar"><header class="site-header" id="site-header"><div class="nav-shell">
     ${a('home', '<span class="logo-glyph"><i></i><i></i></span><span class="wordmark">CORE<span>FUTEC</span><small>Co., Ltd.</small></span>', depth, 'brand')}
-    <nav class="site-nav" aria-label="グローバルナビゲーション">${menus}${a('news', 'お知らせ', depth, 'plain-nav')}</nav>
+    <nav class="site-nav" aria-label="グローバルナビゲーション">${menus}<a href="${r('news', depth)}" class="plain-nav"${selected === 'news' ? ' aria-current="page"' : ''}>お知らせ</a></nav>
     ${a('contact', 'お問い合わせ <span aria-hidden="true">●</span>', depth, 'header-contact')}
     <button class="hamburger" type="button" aria-expanded="false" aria-controls="mobile-drawer" aria-label="メニューを開く"><span></span><span></span></button>
   </div></header><div class="mega-scrim" aria-hidden="true"></div>
@@ -100,9 +101,11 @@ function header(depth, selected) {
 function footer(depth) {
   return `<footer class="site-footer"><div class="footer-upper"><div><span class="eyebrow">THE NEXT STEP</span><p>次の品質を、<br>ともにつくる。</p></div><div>${action('contact', 'お問い合わせ', depth, true)}${action('recruit', '採用情報', depth, true)}</div></div><div class="footer-word">CORE<span>FUTEC</span><sup>®</sup></div><div class="footer-bottom"><small>© CORE FUTEC Co., Ltd.</small><nav>${a('services', '事業内容', depth)}${a('company', '企業情報', depth)}${a('recruit', '採用情報', depth)}${a('news', 'お知らせ', depth)}</nav><span>DESIGN CONCEPT / 2026</span></div></footer>`;
 }
-function pageWrap({ depth = 0, selected = '', title = 'CORE FUTEC', description = '', body = '', cls = '' }) {
+function pageWrap({ depth = 0, selected = '', title = 'CORE FUTEC', description = '', body = '', cls = '', styles = [], scripts = [] }) {
+  const extraStyles = styles.map(file => `<link rel="stylesheet" href="${'../'.repeat(depth)}${file}">`).join('');
+  const extraScripts = scripts.map(file => `<script defer src="${'../'.repeat(depth)}${file}"></script>`).join('');
   const formScript = /(?:^|\s)page-(contact|entry)(?:\s|$)/.test(cls) ? `<script defer src="${'../'.repeat(depth)}assets/js/contact-form.js"></script>` : '';
-  return `<!doctype html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f5f6f7"><meta name="description" content="${esc(description || 'コアフューテックのコーポレートサイト・採用サイト統合リニューアル。静的デザインプロトタイプ。')}"><title>${esc(title)} | コアフューテック</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="${'../'.repeat(depth)}assets/css/style.css"><link rel="stylesheet" href="${'../'.repeat(depth)}assets/css/page-variants.css"></head><body class="${cls}"><a class="skip-link" href="#main">本文へ移動</a>${header(depth, selected)}<main id="main">${body}</main>${footer(depth)}<script defer src="${'../'.repeat(depth)}assets/js/motion.js"></script>${formScript}</body></html>`;
+  return `<!doctype html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f5f6f7"><meta name="description" content="${esc(description || 'コアフューテックのコーポレートサイト・採用サイト統合リニューアル。静的デザインプロトタイプ。')}"><title>${esc(title)} | コアフューテック</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="${'../'.repeat(depth)}assets/css/style.css"><link rel="stylesheet" href="${'../'.repeat(depth)}assets/css/page-variants.css">${extraStyles}</head><body class="${cls}"><a class="skip-link" href="#main">本文へ移動</a>${header(depth, selected)}<main id="main">${body}</main>${footer(depth)}<script defer src="${'../'.repeat(depth)}assets/js/motion.js"></script>${formScript}${extraScripts}</body></html>`;
 }
 const smallHead = (eyebrow, title, desc = '') => `<div class="section-heading"><div><span class="eyebrow" data-reveal="left">${eyebrow}</span><h2 class="display-head" data-reveal="left">${title}</h2></div>${desc ? `<p class="section-desc" data-reveal="left">${desc}</p>` : ''}</div>`;
 const pageData = {
@@ -387,8 +390,8 @@ function collagePage(key, p, depth) {
 function practicalPage(key, p, depth) {
   return `<section class="variant-hero variant-hero--practical theme-${key}"><div><span class="eyebrow">${p.eyebrow}</span><h1 data-reveal="left">${p.title}</h1></div><div class="practical-summary"><p>${p.lead}</p><span>INFORMATION & NEXT STEPS</span></div></section>${navContext(key, depth)}<section class="practical-body section-pad"><div class="practical-main">${key !== 'jobs' ? '<p class="form-warning">この静的サイトからは送信できません。</p>' : ''}${pageContent(key, depth)}${routeList(p, depth, 'rows')}</div></section>${nextBlock(key, depth)}`;
 }
-function journalPage(key, p, depth) {
-  return `<section class="variant-hero variant-hero--journal theme-${key}"><div class="journal-masthead"><span class="eyebrow">CORE FUTEC / EDITORIAL</span><span>ARCHIVE / ${key === 'news' ? 'INFORMATION' : 'JOURNAL'}</span></div><h1 data-reveal="left">${p.title}</h1><div class="journal-subtitle"><p>${p.lead}</p><span>READ / LEARN / EXPLORE</span></div></section><section class="journal-body section-pad"><div>${pageContent(key, depth)}</div></section>${nextBlock(key, depth)}`;
+function journalPage(key, p, depth, page = 1) {
+  return renderNewsArchive(depth, page);
 }
 function productPage(key, p, depth) {
   return `<section class="variant-hero variant-hero--product"><span class="eyebrow">${p.eyebrow}</span><div class="product-grid"><div><h1 data-reveal="left">${p.title}</h1><p>${p.lead}</p>${action('contact', '製品について相談する', depth)}</div><div class="product-symbol" aria-hidden="true"><span>e</span><small>PRODUCT / TECHNOLOGY</small></div></div></section><section class="product-information section-pad"><span class="eyebrow">OUR PRODUCT</span><h2>e伝之介くん</h2>${pageContent(key, depth)}${routeList(p, depth, 'rows')}${pageNote()}</section>${nextBlock(key, depth)}`;
@@ -405,16 +408,19 @@ const renderArchetype = {
   journal: journalPage,
   product: productPage
 };
-function inside(key, depth) {
+function inside(key, depth, page = 1) {
   const p = pageData[key];
-  const selected = recruitKeys.has(key) ? 'recruit' : sections.find(g => g.pages.some(([k]) => k === key))?.top || key;
-  let body = renderArchetype[archetypes[key]](key, p, depth);
+  const selected = key === 'news' ? 'news' : recruitKeys.has(key) ? 'recruit' : sections.find(g => g.pages.some(([k]) => k === key))?.top || key;
+  let body = renderArchetype[archetypes[key]](key, p, depth, page);
   if (!['timeline', 'portrait', 'collage', 'practical', 'journal', 'product'].includes(archetypes[key])) {
     body = body.replace('<section class="next-action">', `<section class="section-pad">${pageContent(key, depth)}</section><section class="next-action">`);
   }
   return pageWrap({
     depth,
-    title: p.label,
+    title: key === 'news' && page > 1 ? p.label + ' (' + page + ')' : p.label,
+    description: key === 'news' ? 'コアフューテックからのお知らせ。採用情報、企業情報、メディア掲載のお知らせをご覧いただけます。' : '',
+    styles: key === 'news' ? ['assets/css/news.css'] : [],
+    scripts: key === 'news' ? ['assets/js/news.js'] : [],
     selected,
     cls: `page-variant page-${key}${recruitKeys.has(key) ? ' is-recruit' : ''}`,
     body
@@ -427,6 +433,7 @@ async function build() {
       path: slug,
       title: key === 'home' ? 'ホーム' : pageData[key].label
     })),
+    ...Array.from({ length: newsPageCount - 1 }, (_, index) => ({ path: newsArchivePath(index + 2), title: pageData.news.label + ' (' + (index + 2) + ')' })),
     ...extraPages
   ];
   const all = [['index.html', localizeLinks(homeHtml, 0)]];
@@ -436,18 +443,25 @@ async function build() {
     const depth = rel.split('/').length - 1;
     all.push([rel, inside(key, depth)]);
   }
+  for (let page = 2; page <= newsPageCount; page++) {
+    const file = newsArchivePath(page).replace(/^\//, '') + 'index.html';
+    all.push([file, inside('news', file.split('/').length - 1, page)]);
+  }
   for (const page of extraPages) {
     const rel = page.path.replace(/^\//, '') + 'index.html';
     const depth = rel.split('/').length - 1;
     const isRecruit = page.path.startsWith('/recruit/');
-    const body = `<section class="section-pad"><h1>${esc(page.title)}</h1>${extraPageContent(page, depth, sitePages)}</section>${nextBlock(isRecruit ? 'recruit' : 'company', depth)}`;
+    const newsItem = findNewsItem(page.path);
+    const body = newsItem ? renderNewsArticle(newsItem, depth) : `<section class="section-pad"><h1>${esc(page.title)}</h1>${extraPageContent(page, depth, sitePages)}</section>${nextBlock(isRecruit ? 'recruit' : 'company', depth)}`;
     all.push([
       rel,
       pageWrap({
         depth,
-        title: page.title,
-        selected: isRecruit ? 'recruit' : 'company',
-        cls: `page-variant page-content${isRecruit ? ' is-recruit' : ''}`,
+        title: newsItem?.title || page.title,
+        description: newsItem?.summary || '',
+        styles: newsItem ? ['assets/css/news.css'] : [],
+        selected: newsItem ? 'news' : isRecruit ? 'recruit' : 'company',
+        cls: newsItem ? 'page-variant page-news-article' : `page-variant page-content${isRecruit ? ' is-recruit' : ''}`,
         body
       })
     ]);
@@ -461,13 +475,16 @@ async function build() {
     'css/style.css',
     'css/page-variants.css',
     'css/home.css',
+    'css/news.css',
     'js/motion.js',
     'js/home-intro.js',
     'js/home-scroll.js',
+    'js/news.js',
     'js/contact-form.js',
     'animations/brand-animation.html',
     'images/e-dennosuke.jpg',
     'images/company-map.svg',
+    ...newsImageFiles,
     'images/about-experience.png',
     'images/about-istqb.png',
     'images/about-quality.png',

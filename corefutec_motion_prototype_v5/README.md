@@ -10,7 +10,7 @@
 node build.mjs
 ```
 
-生成後、[dist/index.html](dist/index.html) をブラウザーで開いて確認します。現時点の生成対象は32ページです。Google FontsとGoogle マップへの外部リンクはインターネット接続を利用します。
+生成後、[dist/index.html](dist/index.html) をブラウザーで開いて確認します。現時点の生成対象は33ページです。Google FontsとGoogle マップへの外部リンクはインターネット接続を利用します。
 
 ## フォルダ構成
 
@@ -50,6 +50,16 @@ dist/                      ブラウザー確認・配布用の生成物
 - `scripts/content-audit.mjs`：取得原文と生成サイトを照合する移行監査ツール。調査時点のキャッシュが必要です。
 
 調査キャッシュはOSの一時フォルダ内の `corefutec-content-import/` を参照します。通常のビルドには不要です。
+
+## お知らせの編集
+
+- 一覧の見出し・分類・導入文・画像：`content/news-entries.json`
+- 取得原文・公開日時：`content/source-pages.json`（原文記録は保持）
+- 一覧／記事HTML・1ページの件数：`content/news.mjs`
+- 専用スタイル・絞り込み：`assets/css/news.css`、`assets/js/news.js`
+- 元記事から取得した画像：`assets/images/news/`
+
+現在は6記事を1ページ5件、全2ページで生成します。記事を追加する際は原文記録と表示用データの両方を更新し、ビルドしてください。ページ数は記事数から算出します。
 
 ## 現在の制約
 

@@ -79,3 +79,15 @@
 サービス一覧は各サービス冒頭、強みは検証ページの経験・認定の章、進め方は開発・ログ解析の構築工程を原文で再配置しました。カテゴリにはお知らせ6件・コラム2件の題名・日付・移行後リンクを掲載しました。
 
 `recruitn.html` の record only は比較記録のみで、ページには掲載していません。ホーム本文は10月26日の移行結果を保持し、記事リンクを生成時にローカルに接続します。未取得の本文を推測で埋めた箇所はありません。
+
+
+## 2026年10月27日 — お知らせ画像の追加取得
+
+既存のお知らせ6記事の本文・画像を再確認しました。一覧には画像を置かず、該当する記事ページに元記事の画像3点を配置しています。取得原画像をそのまま保存し、表示サイズだけCSSで調整します。
+
+| 保存ファイル（assets/images/news/） | 取得元 | 取得日時（UTC） |
+|---|---|---|
+| internship-matching.jpg | https://www.corefutec.co.jp/wp-content/uploads/2024/01/05170707_intan__student.top_-1200x630-1.jpg | 2026-10-27T07:02:35.860Z |
+| 40th-anniversary.jpg | https://www.corefutec.co.jp/wp-content/uploads/2024/01/20230520.jpg | 2026-10-27T07:02:36.450Z |
+| e-dennosuke-newspaper.jpg | https://www.corefutec.co.jp/wp-content/uploads/2024/01/blog_220902-1.jpg | 2026-10-27T07:02:36.550Z |
+
