@@ -25,8 +25,7 @@ const links = {
   jobs: '/recruit/jobs/',
   entry: '/recruit/entry/',
   contact: '/contact/',
-  news: '/category/information/',
-  column: '/category/software-test-column/'
+  news: '/category/information/'
 };
 const sections = [
   {
@@ -57,8 +56,7 @@ const sections = [
     top: 'company',
     pages: [
       ['company', '企業情報トップ'],
-      ['news', 'お知らせ'],
-      ['column', '技術コラム']
+      ['news', 'お知らせ']
     ]
   },
   {
@@ -310,21 +308,8 @@ const pageData = {
     lead: 'お知らせ',
     intro: '関連コンテンツ',
     items: [
-      ['Journal', '技術コラム', 'column'],
       ['Services', 'サービスについて', 'services'],
       ['Company', '企業情報', 'company']
-    ]
-  },
-  column: {
-    label: '技術コラム',
-    eyebrow: 'TECHNOLOGY JOURNAL',
-    title: 'Ideas &<br><i>insights.</i>',
-    lead: 'ソフトウェア検証コラム',
-    intro: '関連コンテンツ',
-    items: [
-      ['Testing', '第三者検証', 'test'],
-      ['Development', 'ソフトウェア開発', 'develop'],
-      ['Information', 'お知らせ', 'news']
     ]
   }
 };
@@ -347,7 +332,6 @@ const archetypes = {
   entry: 'practical',
   contact: 'practical',
   news: 'journal',
-  column: 'journal',
   product: 'product'
 };
 function navContext(key, depth) {
@@ -474,6 +458,7 @@ async function build() {
     await writeFile(destination, file === 'index.html' ? html : formatHtml(html), 'utf8');
   }
   await mkdir(path.join(outDir, 'assets'), { recursive: true });
+  await mkdir(path.join(outDir, 'assets/vendor/bootstrap-icons'), { recursive: true });
   for (const name of [
     'style.css',
     'page-variants.css',
@@ -484,9 +469,18 @@ async function build() {
     'contact-form.js',
     'brand-animation.html',
     'e-dennosuke.jpg',
+    'company-map.svg',
     'about-experience.png',
     'about-istqb.png',
-    'about-quality.png'
+    'about-quality.png',
+    'recruit-teamwork.png',
+    'vendor/bootstrap-grid.css',
+    'vendor/bootstrap-LICENSE.txt',
+    'vendor/bootstrap-icons/LICENSE.txt',
+    'vendor/bootstrap-icons/patch-check.svg',
+    'vendor/bootstrap-icons/bullseye.svg',
+    'vendor/bootstrap-icons/bug.svg',
+    'vendor/bootstrap-icons/clock-history.svg'
   ]) await copyFile(path.join(sourceDir, 'assets', name), path.join(outDir, 'assets', name));
   console.log(`Built ${all.length} static HTML pages in ${outDir}`);
 }

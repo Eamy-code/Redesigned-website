@@ -40,15 +40,18 @@ const recruitTargets = {
   '/workplace03.html': '/recruit/training/',
   '/recruit.html': '/recruit/jobs/'
 };
+const removedColumnPaths = new Set([
+  '/category/software-test-column/',
+  '/four-advantages-of-third-party-verification-for-small-and-medium-sized-software-development/',
+  '/our-advantages-of-third-party-verification-for-small-and-medium-sized-software-development/',
+  '/three-reassurances-necessary-for-software-testing/'
+]);
 const articleSources = sources.filter(source => {
   const url = new URL(source.sourceUrl);
   return url.hostname === 'www.corefutec.co.jp' && !Object.values(sourcePaths).includes(url.pathname)
-    && !url.pathname.startsWith('/company/') && !['/site-map/', '/privacy-policy/'].includes(url.pathname);
+    && !url.pathname.startsWith('/company/') && !['/site-map/', '/privacy-policy/'].includes(url.pathname)
+    && !removedColumnPaths.has(url.pathname);
 });
-const columnSlugs = new Set([
-  '/four-advantages-of-third-party-verification-for-small-and-medium-sized-software-development/',
-  '/three-reassurances-necessary-for-software-testing/'
-]);
 
 export const extraPages = sources.filter(source => {
   const url = new URL(source.sourceUrl);
@@ -65,7 +68,8 @@ extraPages.push({
   source: findSource(`${recruit}/message.html`)
 });
 
-const localTargets = new Map(sources.filter(source => !source.sourceUrl.endsWith('recruitn.html')).map(source => {
+const localTargets = new Map(sources.filter(source => !source.sourceUrl.endsWith('recruitn.html')
+  && !removedColumnPaths.has(new URL(source.sourceUrl).pathname)).map(source => {
   const url = new URL(source.sourceUrl);
   return [
     normalizeUrl(source.sourceUrl),
@@ -82,10 +86,12 @@ for (const slug of [
 ]) {
   localTargets.set(normalizeUrl(`${corporate}/${slug}/`), `/company/${slug}/`);
 }
-for (const slug of ['/category/information/', '/category/software-test-column/']) localTargets.set(normalizeUrl(corporate + slug), slug);
+localTargets.set(normalizeUrl(corporate + '/category/information/'), '/category/information/');
 
 export function localizeLinks(html, depth) {
-  return html.replace(/href="(https?:\/\/[^"<>]+)"/g, (attribute, value) => {
+  return html.replace(/<a href="(https?:\/\/www\.corefutec\.co\.jp\/[^"<>]+)"[^>]*>([\s\S]*?)<\/a>/g,
+    (link, url, text) => removedColumnPaths.has(new URL(url).pathname) ? text : link)
+    .replace(/href="(https?:\/\/[^"<>]+)"/g, (attribute, value) => {
     const url = new URL(value.replaceAll('&amp;', '&'));
     const target = localTargets.get(normalizeUrl(url.href));
     if (!target) return attribute;
@@ -118,9 +124,8 @@ function excerpt(key, startHeading, endHeading) {
   return source.html.slice(start, end);
 }
 
-function articleList(key) {
-  const articles = articleSources.filter(source => columnSlugs.has(new URL(source.sourceUrl).pathname) === (key === 'column'));
-  return `<ul>${articles.map(source => `<li>${source.date ? `<time datetime="${escape(source.date)}">${escape(source.date.slice(0, 10))}</time> ` : ''}<a href="${escape(source.sourceUrl)}">${escape(source.title)}</a></li>`).join('')}</ul>`;
+function articleList() {
+  return `<ul>${articleSources.map(source => `<li>${source.date ? `<time datetime="${escape(source.date)}">${escape(source.date.slice(0, 10))}</time> ` : ''}<a href="${escape(source.sourceUrl)}">${escape(source.title)}</a></li>`).join('')}</ul>`;
 }
 
 export function pageContent(key, depth) {
@@ -140,7 +145,7 @@ export function pageContent(key, depth) {
     + excerpt('develop', '<h2>ソフトウェア開発・システム構築の流れ')
     + '<h2>ログ解析ソリューション</h2>'
     + excerpt('solution', '<h3>ログ解析ソリューション・システム構築の流れ', '<h2>2. セキュリティ診断');
-  else if (key === 'news' || key === 'column') html = articleList(key);
+  else if (key === 'news') html = articleList();
   else throw new Error(`本文の対応がありません: ${key}`);
   if (key === 'jobs') html = '<p>既存採用サイトのナビゲーションに掲載された募集要項の原文です。募集条件の現況は確認中です。</p>' + html;
   if (key === 'company') html += `<p><a href="${corporate}/privacy-policy/">個人情報保護に関する基本方針</a>／<a href="${corporate}/site-map/">サイトマップ</a></p>`;

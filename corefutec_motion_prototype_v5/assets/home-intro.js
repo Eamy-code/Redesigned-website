@@ -70,6 +70,7 @@
       return;
     }
     const target = slot.getBoundingClientRect();
+    const signatureTop = parseFloat(window.getComputedStyle(slot).paddingTop) || 0;
     document.documentElement.classList.add('home-intro-docking');
     backdrop.classList.add('is-docking');
     transition = player.animate([
@@ -82,9 +83,9 @@
       },
       {
         left: `${target.left}px`,
-        top: `${target.top}px`,
+        top: `${target.top + signatureTop}px`,
         width: `${target.width}px`,
-        height: `${target.height}px`,
+        height: `${Math.max(1, target.height - signatureTop)}px`,
         borderRadius: '0px'
       }
     ], {
@@ -113,7 +114,9 @@
     if (event.key === 'Escape') dock();
   }
   function onMotionChange(event) {
-    if (event.matches) dock(true);
+    if (event.matches) {
+      docking ? cleanup() : dock(true);
+    }
   }
   window.addEventListener('message', onMessage);
   window.addEventListener('resize', onResize);

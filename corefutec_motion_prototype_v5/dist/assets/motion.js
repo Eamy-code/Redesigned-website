@@ -97,6 +97,7 @@
         }
       ], {
         duration: heading ? 1300 : 600,
+        delay: Math.min(240, Math.max(0, Number(element.dataset.revealDelay) || 0)),
         easing: heading ? 'cubic-bezier(.45,0,.25,1)' : 'cubic-bezier(.22,1,.36,1)',
         fill: 'both'
       });
