@@ -1,36 +1,51 @@
 # HTMLとアセットの対応
 
+## 現在の配置（2026年10月27日）
+
+パスはプロジェクトルート基準です。`dist/assets/` も同じ分類で生成されます。以下の既存セクションは各作業時点の記録です。
+
+| 配置 | 内容 |
+|---|---|
+| `assets/css/` | 共通・下層・ホーム専用CSS |
+| `assets/js/` | 共通動作・ホーム演出・フォーム用JS |
+| `assets/images/` | 写真・イラスト・所在地マップSVG |
+| `assets/animations/` | iframeで埋め込むブランドアニメーションHTML |
+| `assets/vendor/` | Bootstrapの配布物とライセンス |
+| `scripts/` | HTML整形・本文取得・本文監査のツール |
+
+ホームの参照元は `index.html`、下層の生成元は `build.mjs` と `content/` です。
+
 ## 2026年10月27日 — ホーム2セクションへのBootstrap導入
 
 - `assets/vendor/bootstrap-grid.css`：Bootstrap 5.3.8のグリッドCSS。ソースマップ参照のみ省略し、MITライセンスを同梱しています。ホームのServices・Our Strengthsで使用します。
 - `assets/vendor/bootstrap-icons/`：Bootstrap Icons 1.13.1のpatch-check・bullseye・bug・clock-historyとMITライセンス。Our Strengthsの装飾アイコンです。Servicesにはアイコンを置きません。
-- 見た目は`assets/home.css`、表示演出は既存`assets/motion.js`で管理します。2列の右側の項目のみ80ms遅らせて表示します。
+- 見た目は`assets/css/home.css`、表示演出は既存`assets/js/motion.js`で管理します。2列の右側の項目のみ80ms遅らせて表示します。
 - Our Strengthsのホバーでは薄い青の背景のみ付け、文字・番号・アイコンの色は維持します。
 
 ## 2026年10月27日 — 筆記体ロゴの表示領域
 
-- `assets/home.css` でロゴの移動先にヘッダー高＋44pxの余白を確保し、iframeをその下の領域に収めます。従来の「iframeを画面高に固定して外枠で切り取る」方式から変更しています。
-- `assets/home-intro.js` は上記余白を含めた位置へ移動し、移動完了後にヘッダーを表示します。スクロールによるロゴの移動は表示領域内でクリップします。
+- `assets/css/home.css` でロゴの移動先にヘッダー高＋44pxの余白を確保し、iframeをその下の領域に収めます。従来の「iframeを画面高に固定して外枠で切り取る」方式から変更しています。
+- `assets/js/home-intro.js` は上記余白を含めた位置へ移動し、移動完了後にヘッダーを表示します。スクロールによるロゴの移動は表示領域内でクリップします。
 
 ## 2026年10月27日 — ホームのNews・Contact・フッター
 
 - `index.html` のContactセクションを削除しました。ヘッダーのお問い合わせ導線は保持しています。
 - Newsは既存記事6件を2列×3行で表示し、680px以下では1列にします。日付・カテゴリ・見出し・罫線の構成はSolvvyを参考にしています。一覧へのリンクは記事枠の外です。
-- ホームのフッターだけに本文の視差移動・透明度変化とロゴのマスク表示を追加しました。`assets/home-scroll.js` の既存の更新処理を使い、軽減モーション設定では静止表示に戻します。
+- ホームのフッターだけに本文の視差移動・透明度変化とロゴのマスク表示を追加しました。`assets/js/home-scroll.js` の既存の更新処理を使い、軽減モーション設定では静止表示に戻します。
 - 参考：<https://solvvy.co.jp/> および公開スクリプト `assets/js/modules/common.js`。独自の実装で、外部ライブラリや画像の追加取得はありません。
 
 ## 2026年10月27日 — ホームのRecruitカード
 
 - ホームの採用情報を角丸のカードに変更し、英字見出しを `Recruit` に統一しました。PCでは左半分に既存の紹介文、右半分に提供画像を表示し、950px以下では縦に並べます。
-- 提供された `笑顔で進めるチームワーク会議.png` を、内容を変更せず `assets/recruit-teamwork.png` に保存しました。`node build.mjs` で `dist/assets/recruit-teamwork.png` にコピーします。
-- 表示調整はホーム専用の `assets/home.css` に限定しています。画像とボタンは従来の採用トップへ接続します。
-- 追加指定により `assets/home-scroll.js` の既存のスクロール更新にカード演出を統合しました。カードが画面内に入るにつれて94%から100%へ広がり、52pxの持ち上がりと角丸の変化を伴います。写真もスクロール量に合わせてゆっくり移動します。上へ戻すと逆に動き、動きを減らす設定では演出と変形を解除します。
+- 提供された `笑顔で進めるチームワーク会議.png` を、内容を変更せず `assets/images/recruit-teamwork.png` に保存しました。`node build.mjs` で `dist/assets/images/recruit-teamwork.png` にコピーします。
+- 表示調整はホーム専用の `assets/css/home.css` に限定しています。画像とボタンは従来の採用トップへ接続します。
+- 追加指定により `assets/js/home-scroll.js` の既存のスクロール更新にカード演出を統合しました。カードが画面内に入るにつれて94%から100%へ広がり、52pxの持ち上がりと角丸の変化を伴います。写真もスクロール量に合わせてゆっくり移動します。上へ戻すと逆に動き、動きを減らす設定では演出と変形を解除します。
 
 ## 2026年10月27日 — 本文の移行元と追加ページ
 
 - ホームの編集元は引き続き `index.html`。移行済み記事へのリンクだけ、ビルド時に相対リンクへ変換します。
 - 下層本文は `content/source-pages.json`（取得原文・見出し・メタ情報・日時・出典）を `content/pages.mjs` で配置し、`build.mjs` でHTMLに反映します。ビルド時のネットワーク接続は不要です。
-- 全35ページのうち、ホーム以外の34ページは従来の `assets/style.css`、`assets/page-variants.css`、`assets/motion.js` を使用します。既存CSS/JSと画像の変更・追加はありません。
+- 全35ページのうち、ホーム以外の34ページは従来の `assets/css/style.css`、`assets/css/page-variants.css`、`assets/js/motion.js` を使用します。既存CSS/JSと画像の変更・追加はありません。
 - 追加した16ページ：会社下層5ページ、既存記事8ページ、`/privacy-policy/`、`/site-map/`、`/recruit/message/`。本文用の見出し・段落・リスト・表・リンクを配置し、デザイン調整は保留しています。
 - 日本語の記事パスは、原URLのパスをデコードしたディレクトリーへ出力します。ブラウザーによるURLのデコード後もローカル参照先が一致するようにしています。
 
@@ -38,7 +53,7 @@
 
 | HTML | CSS | JS |
 |---|---|---|
-| /index.html | assets/style.css、assets/page-variants.css、assets/home.css | assets/motion.js、assets/home-intro.js、assets/home-scroll.js |
+| /index.html | assets/css/style.css、assets/css/page-variants.css、assets/css/home.css | assets/js/motion.js、assets/js/home-intro.js、assets/js/home-scroll.js |
 | 既存の下層18ページ | 従来どおり（変更なし） | 従来どおり（変更なし） |
 
 home.cssはホームだけで読み込み、全ルールを.page-homeで限定しています。既存の共通トークン、ナビ、見出し演出を再利用。ホームのカードDOMを削除したため、motion.jsのカード処理はカードが存在せず開始されません。既存の共通アセット分割は今回の範囲に含めません。
@@ -49,9 +64,9 @@ home.cssはホームだけで読み込み、全ルールを.page-homeで限定�
 
 ## 冒頭のブランドアニメーション
 
-`assets/brand-animation.html` は、支給された `corefutec_web_animation.html` を埋め込み用に調整したものです。元ファイルは変更していません。CSSをiframe内に隔離し、ホームの既存スタイルへの干渉を防ぎます。
+`assets/animations/brand-animation.html` は、支給された `corefutec_web_animation.html` を埋め込み用に調整したものです。元ファイルは変更していません。CSSをiframe内に隔離し、ホームの既存スタイルへの干渉を防ぎます。
 
-`assets/home-intro.js` が約9秒の一度再生、ロゴでの停止、横幅100%を保ったまま高さを縮める約1.8秒の移行を制御します。Escapeキーに対応し、動きを減らす設定やページ内リンクでの訪問時は冒頭演出を省略してロゴを表示します。JavaScript無効時も埋め込み内のロゴが表示されます。ビルド時に両ファイルをdist/assetsへコピーします。
+`assets/js/home-intro.js` が約9秒の一度再生、ロゴでの停止、横幅100%を保ったまま高さを縮める約1.8秒の移行を制御します。Escapeキーに対応し、動きを減らす設定やページ内リンクでの訪問時は冒頭演出を省略してロゴを表示します。JavaScript無効時も埋め込み内のロゴが表示されます。ビルド時に両ファイルをdist/assetsへコピーします。
 
 色の修正は `home.css` の `.home-contact .btn-arrow` の文字色のみです。通常時は濃色、ホバー時は白にして、既存の背景色に対する視認性を確保しています。
 
@@ -68,7 +83,7 @@ Solvvyの公開コード（`modules/opening/opening-animation-pc.js`、`opening-
 ## 自社製品の画像
 
 - 掲載先：ホームのProducts（自社製品）セクション。
-- 保存先：`assets/e-dennosuke.jpg`（1000×517px）。ビルド時に `dist/assets/e-dennosuke.jpg` にコピーします。
+- 保存先：`assets/images/e-dennosuke.jpg`（1000×517px）。ビルド時に `dist/assets/images/e-dennosuke.jpg` にコピーします。
 - 出典ページ：https://www.corefutec.co.jp/product/
 - 元画像：https://www.corefutec.co.jp/wp-content/uploads/2024/01/e_den_thumb.jpg
 - ユーザーの指示により公式サイトの製品写真を保存・掲載。画像内容は変更していません。
@@ -82,7 +97,7 @@ Solvvyの公開コード（`modules/opening/opening-animation-pc.js`、`opening-
 
 ## スクロールによる本文への移行
 
-ホーム専用の `assets/home-scroll.js` を追加しました。冒頭の背景と本文を分け、本文の9セクションを `.home-content` にまとめています。冒頭再生中は従来の全画面演出を維持し、再生後のスクロールでは本文が約95%幅・角丸の状態から全幅へ広がり、背景のサインを覆います。同時にサインを上へ移動して薄くし、一定量スクロールした後は表示しません。上へ戻すと元の状態へ戻ります。
+ホーム専用の `assets/js/home-scroll.js` を追加しました。冒頭の背景と本文を分け、本文の9セクションを `.home-content` にまとめています。冒頭再生中は従来の全画面演出を維持し、再生後のスクロールでは本文が約95%幅・角丸の状態から全幅へ広がり、背景のサインを覆います。同時にサインを上へ移動して薄くし、一定量スクロールした後は表示しません。上へ戻すと元の状態へ戻ります。
 
 更新はスクロール量に追従するrequestAnimationFrameで行い、位置の計測は初期化時・リサイズ時・ページ復帰時にまとめています。JavaScript無効時と動きを減らす設定では通常の縦スクロールです。冒頭の全画面要素が背面に隠れないよう、背景のsticky配置は冒頭再生が終わってから適用します。
 

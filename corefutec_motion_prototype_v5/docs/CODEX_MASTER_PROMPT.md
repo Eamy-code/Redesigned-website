@@ -9,11 +9,11 @@
 ## 0. 作業前に読む資料・優先順位
 
 1. `README.md`：現在の静的プロジェクトの構成、実行方法、未実装事項。
-2. `DESIGN_VARIATION_MAP.md`：**現行v4の最優先ビジュアル指針**。ページごとにデザインが異なることが必須です。
+2. `docs/DESIGN_VARIATION_MAP.md`：**現行v4の最優先ビジュアル指針**。ページごとにデザインが異なることが必須です。
 3. `docs/new_sitemap_proposal.md`：企業・採用統合のページ構成、追加・統合候補、旧URL→新URLの移行案。
 4. `docs/site_structure_audit.md`：以前の公開URL調査。**35件は候補であり完全な全URL一覧ではありません**。再調査が必要です。
-5. `docs/design_system_v1_legacy.md`：初期検討資料。**古い提案**のため、現行v4と矛盾した場合はv4の実装・`DESIGN_VARIATION_MAP.md`を優先してください（例：フォント、巨大見出し、カード表現など）。
-6. `build.mjs`、`assets/style.css`、`assets/page-variants.css`、`assets/motion.js`：現在の生成構造、見た目、実際の動作を把握するために読むこと。
+5. `docs/design_system_v1_legacy.md`：初期検討資料。**古い提案**のため、現行v4と矛盾した場合はv4の実装・`docs/DESIGN_VARIATION_MAP.md`を優先してください（例：フォント、巨大見出し、カード表現など）。
+6. `build.mjs`、`assets/css/style.css`、`assets/css/page-variants.css`、`assets/js/motion.js`：現在の生成構造、見た目、実際の動作を把握するために読むこと。
 
 資料間に矛盾があれば勝手に混ぜず、`docs/DECISIONS_AND_OPEN_QUESTIONS.md`へ記録してください。上記資料の内容も無条件に事実とみなさず、現行公式サイトとの照合を行ってください。
 

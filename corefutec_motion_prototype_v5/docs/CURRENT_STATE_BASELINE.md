@@ -4,7 +4,7 @@
 
 ## 確認範囲と制限
 
-既存の19件の生成HTML、`build.mjs`、`assets/style.css`、`assets/page-variants.css`、`assets/motion.js`を対象とした静的確認です。ソース・生成済みサイトは変更していません。ビルドも再実行していません。
+既存の19件の生成HTML、`build.mjs`、`assets/css/style.css`、`assets/css/page-variants.css`、`assets/js/motion.js`を対象とした静的確認です。ソース・生成済みサイトは変更していません。ビルドも再実行していません。
 
 ブラウザー接続一覧は空で、組み込みブラウザーによるローカルHTMLの表示も `Browser is not available: iab` で失敗しました。このため、以下はコード上の定義の記録であり、実際の表示・操作が正常であることを保証するものではありません。スクリーンショットは取得できていません。
 
@@ -44,7 +44,7 @@
 - マルキーはCSSの連続アニメーションで、ホバー・focus-within時に停止します。
 - CSSには950px・680px以下など、下層用CSSには1000px・700px以下の調整があります。
 - 軽減モーション指定では、CSSアニメーション・変形を抑制し、JSのカード更新を開始しない定義があります。
-- 全19ページが `assets/style.css`、`assets/page-variants.css`、`assets/motion.js` の3ファイルを読み込みます。ページ専用分離は未実装です。
+- 全19ページが `assets/css/style.css`、`assets/css/page-variants.css`、`assets/js/motion.js` の3ファイルを読み込みます。ページ専用分離は未実装です。
 
 ## 検証結果
 
@@ -70,11 +70,11 @@
 ```text
 build.mjs
 0fcd71456d96d0664b39cdccb60c6fc6fb70f15c2ba6df19426b6a937d18948e
-assets/style.css
+assets/css/style.css
 b98102abc4c18570039bde771c967f888ff01df5513ec16ceceb7a06d239ad83
-assets/page-variants.css
+assets/css/page-variants.css
 ceaeaca2af57571d0e1b1079fec4c13d3461b630dfda5bf4339408309f770e45
-assets/motion.js
+assets/js/motion.js
 ef04e6ab700d9c78315a3879d892cfd9df37829724fa8a5087ae4f4f4581778a
 ```
 

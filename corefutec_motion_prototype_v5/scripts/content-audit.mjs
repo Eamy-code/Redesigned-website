@@ -1,9 +1,10 @@
 import assert from 'node:assert/strict';
 import { readFile, readdir, access, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import os from 'node:os';
 
-const project = path.resolve('corefutec_motion_prototype_v5');
+const project = fileURLToPath(new URL('../', import.meta.url));
 const root = path.join(project, 'dist');
 const raw = JSON.parse(await readFile(path.join(os.tmpdir(), 'corefutec-content-import/audit-pages.json'), 'utf8'));
 const sources = JSON.parse(await readFile(path.join(project, 'content/source-pages.json'), 'utf8'));

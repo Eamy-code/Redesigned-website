@@ -101,8 +101,8 @@ function footer(depth) {
   return `<footer class="site-footer"><div class="footer-upper"><div><span class="eyebrow">THE NEXT STEP</span><p>次の品質を、<br>ともにつくる。</p></div><div>${action('contact', 'お問い合わせ', depth, true)}${action('recruit', '採用情報', depth, true)}</div></div><div class="footer-word">CORE<span>FUTEC</span><sup>®</sup></div><div class="footer-bottom"><small>© CORE FUTEC Co., Ltd.</small><nav>${a('services', '事業内容', depth)}${a('company', '企業情報', depth)}${a('recruit', '採用情報', depth)}${a('news', 'お知らせ', depth)}</nav><span>DESIGN CONCEPT / 2026</span></div></footer>`;
 }
 function pageWrap({ depth = 0, selected = '', title = 'CORE FUTEC', description = '', body = '', cls = '' }) {
-  const formScript = /(?:^|\s)page-(contact|entry)(?:\s|$)/.test(cls) ? `<script defer src="${'../'.repeat(depth)}assets/contact-form.js"></script>` : '';
-  return `<!doctype html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f5f6f7"><meta name="description" content="${esc(description || 'コアフューテックのコーポレートサイト・採用サイト統合リニューアル。静的デザインプロトタイプ。')}"><title>${esc(title)} | コアフューテック</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="${'../'.repeat(depth)}assets/style.css"><link rel="stylesheet" href="${'../'.repeat(depth)}assets/page-variants.css"></head><body class="${cls}"><a class="skip-link" href="#main">本文へ移動</a>${header(depth, selected)}<main id="main">${body}</main>${footer(depth)}<script defer src="${'../'.repeat(depth)}assets/motion.js"></script>${formScript}</body></html>`;
+  const formScript = /(?:^|\s)page-(contact|entry)(?:\s|$)/.test(cls) ? `<script defer src="${'../'.repeat(depth)}assets/js/contact-form.js"></script>` : '';
+  return `<!doctype html><html lang="ja"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#f5f6f7"><meta name="description" content="${esc(description || 'コアフューテックのコーポレートサイト・採用サイト統合リニューアル。静的デザインプロトタイプ。')}"><title>${esc(title)} | コアフューテック</title><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet"><link rel="stylesheet" href="${'../'.repeat(depth)}assets/css/style.css"><link rel="stylesheet" href="${'../'.repeat(depth)}assets/css/page-variants.css"></head><body class="${cls}"><a class="skip-link" href="#main">本文へ移動</a>${header(depth, selected)}<main id="main">${body}</main>${footer(depth)}<script defer src="${'../'.repeat(depth)}assets/js/motion.js"></script>${formScript}</body></html>`;
 }
 const smallHead = (eyebrow, title, desc = '') => `<div class="section-heading"><div><span class="eyebrow" data-reveal="left">${eyebrow}</span><h2 class="display-head" data-reveal="left">${title}</h2></div>${desc ? `<p class="section-desc" data-reveal="left">${desc}</p>` : ''}</div>`;
 const pageData = {
@@ -457,23 +457,21 @@ async function build() {
     await mkdir(path.dirname(destination), { recursive: true });
     await writeFile(destination, file === 'index.html' ? html : formatHtml(html), 'utf8');
   }
-  await mkdir(path.join(outDir, 'assets'), { recursive: true });
-  await mkdir(path.join(outDir, 'assets/vendor/bootstrap-icons'), { recursive: true });
   for (const name of [
-    'style.css',
-    'page-variants.css',
-    'home.css',
-    'motion.js',
-    'home-intro.js',
-    'home-scroll.js',
-    'contact-form.js',
-    'brand-animation.html',
-    'e-dennosuke.jpg',
-    'company-map.svg',
-    'about-experience.png',
-    'about-istqb.png',
-    'about-quality.png',
-    'recruit-teamwork.png',
+    'css/style.css',
+    'css/page-variants.css',
+    'css/home.css',
+    'js/motion.js',
+    'js/home-intro.js',
+    'js/home-scroll.js',
+    'js/contact-form.js',
+    'animations/brand-animation.html',
+    'images/e-dennosuke.jpg',
+    'images/company-map.svg',
+    'images/about-experience.png',
+    'images/about-istqb.png',
+    'images/about-quality.png',
+    'images/recruit-teamwork.png',
     'vendor/bootstrap-grid.css',
     'vendor/bootstrap-LICENSE.txt',
     'vendor/bootstrap-icons/LICENSE.txt',
@@ -481,7 +479,11 @@ async function build() {
     'vendor/bootstrap-icons/bullseye.svg',
     'vendor/bootstrap-icons/bug.svg',
     'vendor/bootstrap-icons/clock-history.svg'
-  ]) await copyFile(path.join(sourceDir, 'assets', name), path.join(outDir, 'assets', name));
+  ]) {
+    const destination = path.join(outDir, 'assets', name);
+    await mkdir(path.dirname(destination), { recursive: true });
+    await copyFile(path.join(sourceDir, 'assets', name), destination);
+  }
   console.log(`Built ${all.length} static HTML pages in ${outDir}`);
 }
 build().catch(e => {
