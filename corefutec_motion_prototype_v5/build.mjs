@@ -436,7 +436,9 @@ async function build() {
     ...Array.from({ length: newsPageCount - 1 }, (_, index) => ({ path: newsArchivePath(index + 2), title: pageData.news.label + ' (' + (index + 2) + ')' })),
     ...extraPages
   ];
-  const all = [['index.html', localizeLinks(homeHtml, 0)]];
+  // Source HTML links to generated pages for direct previews; dist uses its own root.
+  const generatedHomeHtml = homeHtml.replaceAll('href="dist/', 'href="');
+  const all = [['index.html', localizeLinks(generatedHomeHtml, 0)]];
   for (const [key, slug] of Object.entries(links)) {
     if (key === 'home') continue;
     const rel = slug.replace(/^\//, '') + 'index.html';
